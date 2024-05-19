@@ -1,0 +1,1 @@
+math-tasks/* filter=lfs diff=lfs merge=lfs -text
