@@ -56,7 +56,7 @@ public class Interaction : MonoBehaviour
         string output = "";
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
-            FileName = "/Users/franz/miniforge3/envs/master/bin/python", //Pfad zur Python der Conda-Umgebung
+            FileName = "/Users/franz/miniforge3/envs/master/bin/python", // Pfad zur Python der Conda-Umgebung
             Arguments = "\"Assets/Scripts/text2.py\"",
             RedirectStandardOutput = true,
             RedirectStandardError = true,
@@ -86,9 +86,9 @@ public class Interaction : MonoBehaviour
         string[] parts = output.Split('=');
         if (parts.Length == 2)
         {
-            string task = parts[0].Trim();
+            string task = parts[0].Trim() + " ="; // Füge das "=" hinter der Aufgabe hinzu
             correctAnswer = parts[1].Trim();
-
+    
             taskText.text = task;
             actionButton.GetComponentInChildren<TMP_Text>().text = "Check";
         }
@@ -97,6 +97,7 @@ public class Interaction : MonoBehaviour
             UnityEngine.Debug.LogError("Unexpected output format: " + output);
         }
     }
+
 
     void CheckAnswer()
     {
@@ -109,5 +110,15 @@ public class Interaction : MonoBehaviour
         {
             resultText.text = "Incorrect. The correct answer is: " + correctAnswer;
         }
+
+        // Button-Text zurück auf "Generate" setzen
+        actionButton.GetComponentInChildren<TMP_Text>().text = "Generate";
+
+        // Lösche die Eingabe und das Ergebnisfeld
+        answerInput.text = "";
+        //resultText.text = "";
+
+        // Setze die Aufgabe zurück
+        taskText.text = "Press 'Generate'";
     }
 }
