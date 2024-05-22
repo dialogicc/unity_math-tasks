@@ -177,7 +177,7 @@ public class Interaction : MonoBehaviour
     {
         while (taskTimer.IsRunning)
         {
-            taskTimerText.text = $"Time: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
+            taskTimerText.text = $"Task Time: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
             yield return new WaitForSeconds(0.1f);
         }
     }
