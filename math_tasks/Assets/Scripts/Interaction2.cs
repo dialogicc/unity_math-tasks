@@ -14,12 +14,18 @@ using UnityEditor; // Für den Zugriff auf Editor-spezifische Funktionen wie Ass
 public class Interaction : MonoBehaviour
 {
     public Button actionButton; // Referenz zur Schaltfläche in der UI
+    public Button autoplayButton; // Referenz zur Autoplay-Schaltfläche in der UI
     public TMP_Text taskText; // Referenz zum TextMeshPro-Textfeld für die Aufgabe
     public TMP_InputField answerInput; // Referenz zum TextMeshPro-Eingabefeld für die Antwort
     public TMP_Text resultText; // Referenz zum TextMeshPro-Textfeld für das Ergebnis
+    public TMP_Text timerText; // Referenz zum TextMeshPro-Textfeld für den Timer
+    public TMP_Text totalTimerText; // Referenz zum TextMeshPro-Textfeld für den Gesamttimer
 
     private SynchronizationContext unitySyncContext; // Um auf den Hauptthread zuzugreifen
     private string correctAnswer = ""; // Variable zur Speicherung der korrekten Antwort
+    private Stopwatch taskTimer; // Timer für einzelne Aufgaben
+    private Stopwatch totalTimer; // Timer für die gesamte Zeit
+    private bool isAutoplayEnabled = false; // Flag für den Autoplay-Status
 
     void Awake()
     {
@@ -27,6 +33,17 @@ public class Interaction : MonoBehaviour
         if (actionButton != null)
         {
             actionButton.onClick.AddListener(OnActionButtonClick); // Füge einen Listener zur Schaltfläche hinzu
+        }
+        if (autoplayButton != null)
+        {
+            autoplayButton.onClick.AddListener(ToggleAutoplay); // Füge einen Listener zur Autoplay-Schaltfläche hinzu
+        }
+        taskTimer = new Stopwatch(); // Initialisiere den Timer für einzelne Aufgaben
+        totalTimer = new Stopwatch(); // Initialisiere den Timer für die gesamte Zeit
+
+        if (answerInput != null)
+        {
+            answerInput.onEndEdit.AddListener(OnAnswerInputEndEdit); // Füge einen Listener zum Eingabefeld hinzu
         }
     }
 
@@ -39,6 +56,14 @@ public class Interaction : MonoBehaviour
         else if (actionButton.GetComponentInChildren<TMP_Text>().text == "Check")
         {
             CheckAnswer();
+        }
+    }
+
+    void OnAnswerInputEndEdit(string input)
+    {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            OnActionButtonClick(); // Rufe die Aktion für den Button auf, wenn Enter gedrückt wird
         }
     }
 
@@ -91,6 +116,13 @@ public class Interaction : MonoBehaviour
     
             taskText.text = task;
             actionButton.GetComponentInChildren<TMP_Text>().text = "Check";
+            
+            taskTimer.Restart(); // Timer für einzelne Aufgaben neu starten
+            totalTimer.Start(); // Gesamttimer starten oder weiterlaufen lassen
+            StartCoroutine(UpdateTaskTimer()); // Timer-Anzeige für einzelne Aufgaben aktualisieren
+            StartCoroutine(UpdateTotalTimer()); // Timer-Anzeige für Gesamttimer aktualisieren
+            answerInput.Select(); // Fokussiere das Eingabefeld
+            answerInput.ActivateInputField(); // Aktiviere das Eingabefeld
         }
         else
         {
@@ -98,17 +130,18 @@ public class Interaction : MonoBehaviour
         }
     }
 
-
     void CheckAnswer()
     {
         string userAnswer = answerInput.text.Trim();
+        taskTimer.Stop(); // Timer für einzelne Aufgaben stoppen
+
         if (userAnswer == correctAnswer)
         {
-            resultText.text = "Correct!";
+            resultText.text = $"Correct! Time taken: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
         }
         else
         {
-            resultText.text = "Incorrect. The correct answer is: " + correctAnswer;
+            resultText.text = $"Incorrect. The correct answer is: {correctAnswer}. Time taken: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
         }
 
         // Button-Text zurück auf "Generate" setzen
@@ -120,5 +153,46 @@ public class Interaction : MonoBehaviour
 
         // Setze die Aufgabe zurück
         taskText.text = "Press 'Generate'";
+
+        if (isAutoplayEnabled)
+        {
+            ExecuteActionAsync(); // Automatisch die nächste Aufgabe generieren
+        }
+        else
+        {
+            answerInput.Select(); // Fokussiere das Eingabefeld
+            answerInput.ActivateInputField(); // Aktiviere das Eingabefeld
+        }
+    }
+
+    IEnumerator UpdateTaskTimer()
+    {
+        while (taskTimer.IsRunning)
+        {
+            timerText.text = $"Time: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator UpdateTotalTimer()
+    {
+        while (totalTimer.IsRunning)
+        {
+            totalTimerText.text = $"Total Time: {totalTimer.Elapsed.TotalSeconds:F2} seconds";
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    void ToggleAutoplay()
+    {
+        isAutoplayEnabled = !isAutoplayEnabled;
+        if (isAutoplayEnabled)
+        {
+            autoplayButton.GetComponent<Image>().color = Color.green;
+        }
+        else
+        {
+            autoplayButton.GetComponent<Image>().color = Color.red;
+        }
     }
 }
