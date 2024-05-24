@@ -1001,6 +1001,7 @@ MonoBehaviour:
   taskTimerText: {fileID: 207179873}
   totalTimerText: {fileID: 1480104778}
   preparationTimerText: {fileID: 1029131334}
+  solvedTasksText: {fileID: 648644505}
 --- !u!114 &397590723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,6 +1691,7 @@ MonoBehaviour:
   taskTimerText: {fileID: 207179873}
   totalTimerText: {fileID: 1480104778}
   preparationTimerText: {fileID: 1029131334}
+  solvedTasksText: {fileID: 648644505}
 --- !u!1 &933786852
 GameObject:
   m_ObjectHideFlags: 0

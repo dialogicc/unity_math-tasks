@@ -21,6 +21,7 @@ public class Interaction : MonoBehaviour
     public TMP_Text taskTimerText; // Referenz zum TextMeshPro-Textfeld für den Timer
     public TMP_Text totalTimerText; // Referenz zum TextMeshPro-Textfeld für den Gesamttimer
     public TMP_Text preparationTimerText; // Referenz zum TextMeshPro-Textfeld für den Vorbereitungstimer
+    public TMP_Text solvedTasksText; // Referenz zum TextMeshPro-Textfeld für die Anzahl der gelösten Aufgaben
 
     private SynchronizationContext unitySyncContext; // Um auf den Hauptthread zuzugreifen
     private string correctAnswer = ""; // Variable zur Speicherung der korrekten Antwort
@@ -28,6 +29,7 @@ public class Interaction : MonoBehaviour
     private Stopwatch totalTimer; // Timer für die gesamte Zeit zum Lösen der Aufgaben
     private Stopwatch preparationTimer; // Timer für die Zeit bis zur Generierung einer Aufgabe
     private bool isAutoplayEnabled = false; // Flag für den Autoplay-Status
+    private int solvedTasksCount = 0; // Zähler für die Anzahl der gelösten Aufgaben
 
     void Awake()
     {
@@ -146,6 +148,7 @@ public class Interaction : MonoBehaviour
         if (userAnswer == correctAnswer)
         {
             resultText.text = $"Correct! Time taken: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
+            solvedTasksCount++; // Erhöhe den Zähler für die gelösten Aufgaben
         }
         else
         {
@@ -175,9 +178,12 @@ public class Interaction : MonoBehaviour
 
     IEnumerator UpdateTaskTimer()
     {
-        while (taskTimer.IsRunning)
+        while (true)
         {
-            taskTimerText.text = $"Task Time: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
+            if (taskTimer.IsRunning)
+            {
+                taskTimerText.text = $"Task Time: {taskTimer.Elapsed.TotalSeconds:F2} seconds";
+            }
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -187,6 +193,10 @@ public class Interaction : MonoBehaviour
         while (true) // Continuously update the total timer
         {
             totalTimerText.text = $"Total Solving Time: {totalTimer.Elapsed.TotalSeconds:F2} seconds";
+            if (totalTimer.Elapsed.TotalSeconds >= 60)
+            {
+                ResetAll();
+            }
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -215,7 +225,33 @@ public class Interaction : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(UpdateTaskTimer()); // Start updating the task timer display
         StartCoroutine(UpdateTotalTimer()); // Start updating the total timer display
         StartCoroutine(UpdatePreparationTimer()); // Start updating the preparation timer display
+    }
+
+    void ResetAll()
+    {
+        // Stop all timers
+        taskTimer.Stop();
+        totalTimer.Stop();
+        preparationTimer.Stop();
+
+        // Reset all timers
+        taskTimer.Reset();
+        totalTimer.Reset();
+        preparationTimer.Reset();
+
+        // Reset UI elements
+        taskText.text = "Press 'Generate'";
+        resultText.text = "";
+        answerInput.text = "";
+        actionButton.GetComponentInChildren<TMP_Text>().text = "Generate";
+
+        // Display the number of solved tasks
+        solvedTasksText.text = $"Solved Tasks: {solvedTasksCount}";
+
+        // Reset the count of solved tasks
+        solvedTasksCount = 0;
     }
 }
