@@ -47,7 +47,7 @@ This guide will walk you through the steps needed to set up the project.
    ```
 
 6. **Adjust Python Path in Script:**
-   Open the script "Interaction" and modify the FileName to match the path to your Conda environment's Python executable. For example:
+   Open the script "Interaction2" and modify the FileName to match the path to your Conda environment's Python executable. For example:
 
    *Windows:*
    ```csharp
