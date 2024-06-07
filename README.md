@@ -23,7 +23,7 @@ This guide will walk you through the steps needed to set up the project.
    conda config --add channels conda-forge
 4. **Create Conda Environment:**
    
-   Navigate to the right location for example by
+   Navigate to the right location within the Anaconda Prompt console, for example by
    running the following command if the .yaml is located at "Downloads":
 
    *Windows:*
@@ -41,7 +41,7 @@ This guide will walk you through the steps needed to set up the project.
    ```
 
 5. **Install Ollama and Gemma:2b:**
-   Follow the instructions provided by Ollama from [here]([https://www.python.org/downloads/](https://ollama.com)) to install it. Then, install the Gemma:2b package by runiing the following command in the normal Windows or Unix console:
+   Follow the instructions provided by Ollama from [here]([https://www.python.org/downloads/](https://ollama.com)) to install it. Then, install the Gemma:2b package by running the following command in the normal Windows or Unix console:
    ```sh
    ollama run gemma:2b
    ```
