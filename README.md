@@ -40,13 +40,13 @@ This guide will walk you through the steps needed to set up the project.
    conda env create -f conda_environment.yaml
    ```
 
-6. **Install Ollama and Gemma:2b:**
+5. **Install Ollama and Gemma:2b:**
    Follow the instructions provided by Ollama from [here]([https://www.python.org/downloads/](https://ollama.com)) to install it. Then, install the Gemma:2b package by runiing the following command in the normal Windows or Unix console:
    ```sh
    ollama run gemma:2b
    ```
 
-7. **Adjust Python Path in Script:**
+6. **Adjust Python Path in Script:**
    Open the script "Interaction" and modify the FileName to match the path to your Conda environment's Python executable. For example:
 
    *Windows:*
@@ -56,8 +56,11 @@ This guide will walk you through the steps needed to set up the project.
    *Unix:*
    ```csharp
    FileName = "/Users/USERNAME/miniforge3/envs/master/bin/python", // Path to the Conda environment's Python executable
+
+7. **Start working:**
+   You can close all the windows including the consoles, just make sure, that Ollama is running in the background.
    
-9. **Run Unity-Project:**
+8. **Run Unity-Project:**
    Open the math_tasks-folder in the Unity-Hub. You may have to install the correct editor suggested by Unity for the project.
 
    If you are using Windows, press 'Switch target', when opening the porject.
