@@ -23,8 +23,8 @@ This guide will walk you through the steps needed to set up the project.
    conda config --add channels conda-forge
 4. **Create Conda Environment:**
    
-   Navigate to the right location
-   Run the following command:
+   Navigate to the right location for example by
+   running the following command if the .yaml is located at "Downloads":
 
    *Windows:*
    ```
