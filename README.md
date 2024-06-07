@@ -58,5 +58,8 @@ This guide will walk you through the steps needed to set up the project.
    FileName = "/Users/USERNAME/miniforge3/envs/master/bin/python", // Path to the Conda environment's Python executable
    
 9. **Run Unity-Project:**
-     Open the math_tasks-folder in the Unity-Hub. You may have to install the correct editor suggested by Unity for the project. If you are using Windows, press 'Switch target', when opening the porject.
+   Open the math_tasks-folder in the Unity-Hub. You may have to install the correct editor suggested by Unity for the project.
+
+   If you are using Windows, press 'Switch target', when opening the porject.
+   
    Press the 'Generate'-Button to get a math task, and the 'Check'-Button or 'Enter' to evaluate the answer.
