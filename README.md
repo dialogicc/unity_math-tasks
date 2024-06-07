@@ -57,7 +57,7 @@ This guide will walk you through the steps needed to set up the project.
    ```csharp
    FileName = "/Users/USERNAME/miniforge3/envs/master/bin/python", // Path to the Conda environment's Python executable
 
-7.**Start working**
+7. **Start working**
    You can close all the windows including the consoles, just make sure, that Ollama is running in the background.
    
 8. **Run Unity-Project:**
