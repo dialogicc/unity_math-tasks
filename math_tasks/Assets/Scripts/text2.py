@@ -3,7 +3,7 @@ import requests
 import re
 
 def is_valid_math_task(task):
-    """Überprüft, ob die mathematische Aufgabe korrekt ist."""
+    """Checks if the math task is valid."""
     match = re.match(r'^(\d+)([\+\-\*/])(\d+)=(\d+)$', task)
     if not match:
         return False
@@ -33,15 +33,15 @@ def query_ollama(prompt):
         response = requests.post(api_url, json=data)
         if response.status_code == 200:
             response_text = response.json()['choices'][0]['message']['content']
-            # Entferne alles außer Zahlen, Operatoren und dem Gleichheitszeichen
+            # Remove everything except numbers, operators, and the equal sign
             cleaned_text = re.sub(r'[^0-9+\-*/=]', '', response_text)
-            # Sicherstellen, dass das Format korrekt ist und die Berechnung stimmt
+            # Ensure the format is correct and the calculation is accurate
             if is_valid_math_task(cleaned_text):
                 return cleaned_text
         else:
             return f"Error: {response.text}"
 
-# Prompt, den du ausführen möchtest
+# Prompt to execute
 prompt = "Create a math task with result in one line. Only give out the task and the result with no words, no explanations, just the task and the result."
 response = query_ollama(prompt)
 print(response)
