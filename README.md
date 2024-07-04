@@ -68,4 +68,4 @@ This guide will walk you through the steps needed to set up the project.
    Press the 'Generate'-Button to get a math task, and the 'Check'-Button or 'Enter' to evaluate the answer.
 
 
-<img src="concept.png" alt="Concept" width="200"/>
+<img src="conceptmath.png" alt="Concept" width="200"/>
