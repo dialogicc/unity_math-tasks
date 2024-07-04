@@ -66,3 +66,6 @@ This guide will walk you through the steps needed to set up the project.
    If you are using Windows, press 'Switch target', when opening the porject.
    
    Press the 'Generate'-Button to get a math task, and the 'Check'-Button or 'Enter' to evaluate the answer.
+
+
+<img src="concept.png" alt="Concept" width="200"/>
